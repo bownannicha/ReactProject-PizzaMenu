@@ -71,10 +71,31 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  // const pizzas = [];
+  const numPizzas = pizzaData.length;
+
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza
+
+      {numPizzas > 0 ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <p>We're still working on our menu. Please come back later :)</p>
+      )}
+
+      {/* <ul className="pizzas">
+        {pizzaData.map((pizza) => (
+          <Pizza pizzaObj={pizza} key={pizza.name} />
+        ))}
+      </ul> */}
+
+      {/* <Pizza
         name="Pizza Prosciutto"
         ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
         photoName="pizzas/prosciutto.jpg"
@@ -85,7 +106,7 @@ function Menu() {
         ingredients="Tomato, mozarella, spinach, and ricotta cheese"
         photoName="pizzas/Spinaci.jpg"
         price={12}
-      />
+      /> */}
     </main>
   );
 }
@@ -94,12 +115,12 @@ function Pizza(props) {
   console.log(props);
 
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt={props.name} />
-      <h3>{props.name}</h3>
-      <p>{props.ingredients}</p>
-      <span>{props.price + 3}</span>
-    </div>
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <h3>{props.pizzaObj.name}</h3>
+      <p>{props.pizzaObj.ingredients}</p>
+      <span>{props.pizzaObj.price + 3}</span>
+    </li>
   );
 }
 
@@ -115,7 +136,13 @@ function Footer() {
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()} We're currently open!
+      {isOpen && (
+        <div className="order">
+          <p>
+            We're Open until {closeHour}:00. Come visit us or order online.{" "}
+          </p>
+        </div>
+      )}
     </footer>
   );
   //   return React.createElement("footer", null, "We're currently open!");
